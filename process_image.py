@@ -11,16 +11,9 @@ def detect_deforestation(image_path):
     green_pixels = cv2.countNonZero(mask)
 
     total_pixels = img.shape[0] * img.shape[1]
-    green_percent = (green_pixels / total_pixels) * 100
+    non_green_pixels = total_pixels - green_pixels
 
-    deforested_percent = 100 - green_percent
-    deforested_area = round((deforested_percent / 100) * 1000, 2)  # Assume 1000 sq.km base area
+    deforested_area = round((non_green_pixels / total_pixels) * 100, 2)
+    percentage = round(deforested_area, 2)
 
-    return round(deforested_area, 2), round(deforested_percent, 2)
-
-# ✅ This block should be OUTSIDE the function
-if __name__ == "__main__":
-    test_image = "static/uploads/sample.jpg"  # Make sure this path exists
-    area, percent = detect_deforestation(test_image)
-    print(f"Deforested Area: {area} sq.km")
-    print(f"Deforested Percentage: {percent}%")
+    return deforested_area, percentage

@@ -3,19 +3,19 @@ from flask_pymongo import PyMongo
 import os
 from datetime import datetime
 from urllib.parse import urlencode
-from process_image import detect_deforestation  # 👈 Import OpenCV processing function
+from process_image import detect_deforestation  # Custom OpenCV function
 
 app = Flask(__name__)
 
-# Folder to save uploaded files
+# Folder to save uploaded images
 UPLOAD_FOLDER = 'static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-# ✅ MongoDB Setup
-app.config["MONGO_URI"] = "mongodb://localhost:27017/neurolesf"
+# ✅ MongoDB Atlas Connection
+app.config["MONGO_URI"] = "mongodb+srv://saeemohite0305:XjISz4XjZUcvhFkp@saeeradb.fv0hf4z.mongodb.net/saeeradb?retryWrites=true&w=majority&appName=SaeeraDB"
 mongo = PyMongo(app)
 
-# Ensure upload folder exists
+# Create uploads folder if not exist
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
@@ -41,7 +41,6 @@ def contact():
 def gallery():
     return render_template('gallery.html')
 
-# 🔍 Detection Page using OpenCV
 @app.route('/detect', methods=['GET', 'POST'])
 def detect():
     if request.method == 'POST':
@@ -51,16 +50,14 @@ def detect():
         if file.filename == '':
             return "⚠️ No file selected!"
         if file:
-            # Save uploaded image
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
             file.save(filepath)
 
-            # ✅ Use OpenCV to analyze image
             year = datetime.now().year
             deforested_area, deforestation_percentage = detect_deforestation(filepath)
             status = "High" if deforestation_percentage > 50 else "Moderate"
 
-            # ✅ Save to MongoDB
+            # ✅ Save to MongoDB Atlas
             mongo.db.analysis.insert_one({
                 "filename": file.filename,
                 "year": year,
@@ -70,7 +67,6 @@ def detect():
                 "uploaded_at": datetime.now()
             })
 
-            # ✅ Encode the query parameters
             analysis = {
                 "year": year,
                 "area": f"{deforested_area} sq.km",
@@ -78,7 +74,6 @@ def detect():
                 "status": status
             }
             query_string = urlencode(analysis)
-
             return redirect(f"{url_for('success', filename=file.filename)}?{query_string}")
     return render_template('detect.html')
 
@@ -100,6 +95,7 @@ def history():
     results = mongo.db.analysis.find().sort("uploaded_at", -1)
     return render_template('history.html', results=results)
 
-# ------------------ Run Server ------------------
+# ------------------ Run App ------------------
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 10000)))
+
