@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Gallery Header -->
+<section class="gallery">
+<h1 style="font-size: 3rem; margin-bottom: 15px; animation: fadeInDown 1s;">📸 Our Gallery</h1>
+    <p style="font-size: 1.2rem; max-width: 750px; margin: auto; animation: fadeInUp 1.5s;">
+        🌿 Capturing the beauty of nature across our landscapes.
+    </p>
+</section>
+<style>
+    
+@keyframes fadeInDown {
+    0% {opacity: 0; transform: translateY(-30px);}
+    100% {opacity: 1; transform: translateY(0);}
+}
+@keyframes fadeInUp {
+    0% {opacity: 0; transform: translateY(30px);}
+    100% {opacity: 1; transform: translateY(0);}
+}
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+.gallery {
+    text-align: center;
+    padding: 60px 20px;
+    color: white;
+    background: linear-gradient(rgba(76, 175, 80, 0.7), rgba(0, 0, 0, 0.591)),
+                url("{{ url_for('static', filename='images/forest-bg.jpg') }}") no-repeat center center / cover;
+}
+</style>
+
+<!-- Gallery Section -->
+<div class="container py-5">
+    <div class="row g-4">
+        {% for image in [
+            'Borneo.jpg', 'Brazilian Amazon.png', 'christmas island.jpg', 
+            'costa rica monteverde cloud forest.png', 'Indian Kipling.png', 
+            'new zealand waipoua.png', 'papua new guinea.png', 
+            'peru cloud forest.jpg', 'Sri Lanka Sinharaja.png', 'Tarazan Africa.jpg'
+        ] %}
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="card shadow-sm border-0 h-100 gallery-card">
+                <img src="{{ url_for('static', filename='images/' + image) }}" 
+                     class="card-img-top gallery-img" 
+                     alt="{{ image }}">
+                <div class="card-body text-center">
+                    <h5 class="card-title" style="font-size: 1.1rem;">{{ image.split('.')[0] }}</h5>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<section style="background: #e8f5e9; text-align: center; padding: 50px;">
+    <h2 style="color: #2e7d32; margin-bottom: 15px; animation: fadeInUp 1s;">Ready to Explore NeuroLeaf?</h2>
+    <p style="color: #555; font-size: 1.1rem; margin-bottom: 25px;">Start using our AI tools to analyze satellite images now!</p>
+    <a href="{{ url_for('detect') }}" style="background: #2e7d32; color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-size: 1.1rem;">🌱 Start Detection</a>
+</section>
+
+
+<style>
+    /* Gallery Hover Effect */
+    .gallery-card {
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+        cursor: pointer;
+    }
+    .gallery-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.486);
+    }
+
+    .gallery-img {
+        height: 220px;
+        object-fit: cover;
+        border-radius: 8px 8px 0 0;
+    }
+</style>
+{% endblock %}

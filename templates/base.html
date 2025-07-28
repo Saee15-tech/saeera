@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NeuroLeaf 🌿 - {{ title }}</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+    <style>
+        /* Navbar */
+        header {
+            background-color: #ffffff; /* white navbar background */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* soft shadow */
+          padding: 0  30px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+       .logo {
+    width: 300px;
+    height: 80px;
+    object-fit: contain; /* keeps image proportion */
+
+}
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li a {
+            color: #333333;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            position: relative;
+            transition: color 0.3s ease, transform 0.2s ease;
+        }
+
+        .nav-links li a::after {
+            content: "";
+            display: block;
+            width: 0%;
+            height: 2px;
+            background-color: #10b981; /* emerald green underline */
+            transition: width 0.3s ease;
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+        }
+
+        .nav-links li a:hover {
+            color: #10b981;
+            transform: translateY(-2px);
+        }
+
+        .nav-links li a:hover::after {
+            width: 100%;
+        }
+
+        .cta-link {
+            background-color: #10b981;
+            color: #fff !important;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .cta-link:hover {
+            background-color: #0ea472;
+            transform: scale(1.05);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: #000000;
+            cursor: pointer;
+        }
+
+        /* Mobile Navbar */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background-color: #f1f1f1; 
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                position: absolute;
+                top: 60px;
+                right: 20px;
+                padding: 10px;
+                border-radius: 8px;
+                width: 200px;
+            }
+            .nav-links.show {
+                display: flex;
+            }
+            .menu-toggle {
+                display: block;
+            }
+        }
+       </style>
+
+<body>
+    <!--navbar-->
+        <header>
+        <nav class="navbar">
+          <img src="{{ url_for('static', filename='images/logo.png') }}" 
+     alt="NeuroLeaf Logo" 
+     class="logo">
+
+
+            <!-- Mobile Menu Button -->
+            <button class="menu-toggle" id="menu-toggle">☰</button>
+
+            <!-- Navigation Links -->
+            <ul class="nav-links" id="nav-links">
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+                <li><a href="{{ url_for('features') }}">Features</a></li>
+                <li><a href="{{ url_for('gallery') }}">Gallery</a></li>
+                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                 <li><a href="{{ url_for('history') }}">History</a></li>
+                <li><a href="{{ url_for('detect') }}" class="cta-link">Start Detect</a></li>
+               
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 NeuroLeaf. All Rights Reserved.</p>
+        <p id="tagline" class="tagline"></p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+    
+    
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById("menu-toggle");
+        const navLinks = document.getElementById("nav-links");
+
+        menuToggle.addEventListener("click", () => {
+            navLinks.classList.toggle("show");
+        });
+    </script>
+</body>
+</html>

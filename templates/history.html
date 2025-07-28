@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Section Header -->
+<section class="history">
+    <h1 style="font-size: 3rem; margin-bottom: 15px; animation: fadeInDown 1s;">📜 Analysis History</h1>
+    <p style="font-size: 1.2rem; max-width: 750px; margin: auto; animation: fadeInUp 1.5s;">
+        
+    </p>
+</section>
+<style>
+.history {
+    text-align: center;
+    padding: 60px 20px;
+    color: white;
+    background: linear-gradient(rgba(76, 175, 80, 0.7), rgba(0, 0, 0, 0.591)),
+                url("{{ url_for('static', filename='images/forest-bg.jpg') }}") no-repeat center center / cover;
+}
+</style>
+
+<!-- Table Section -->
+<div class="container my-5">
+    <!-- Responsive wrapper added -->
+    <div class="table-responsive shadow rounded-3 p-3" style="background: #f1f8e9;">
+        <table class="table table-bordered table-striped table-hover align-middle">
+            <thead class="table-success text-center">
+                <tr>
+                    <th scope="col" style="border: 2px solid #a5d6a7;">📸 Image</th>
+                    <th scope="col" style="border: 2px solid #a5d6a7;">📅 Year</th>
+                    <th scope="col" style="border: 2px solid #a5d6a7;">🌳 Deforested Area</th>
+                    <th scope="col" style="border: 2px solid #a5d6a7;">📊 Deforestation %</th>
+                    <th scope="col" style="border: 2px solid #a5d6a7;">⚠️ Status</th>
+                    <th scope="col" style="border: 2px solid #a5d6a7;">⏳ Uploaded At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in results %}
+                <tr>
+                    <!-- Image Column -->
+                    <td class="text-center" style="border: 1px solid #c8e6c9;">
+                        <img src="{{ url_for('static', filename='uploads/' + result.filename) }}" 
+                             alt="Deforestation Image" 
+                             class="img-thumbnail rounded shadow-sm" 
+                             style="max-width: 90px;">
+                        <div class="small text-muted mt-1">{{ result.filename }}</div>
+                    </td>
+
+                    <!-- Year Column -->
+                    <td class="text-center fw-semibold" style="border: 1px solid #c8e6c9;">
+                        {{ result.year }}
+                    </td>
+
+                    <!-- Area Column -->
+                    <td class="text-center fw-bold text-success" style="border: 1px solid #c8e6c9;">
+                        {{ result.area }} sq.km
+                    </td>
+
+                    <!-- Percentage Column -->
+                    <td class="text-center fw-bold" style="border: 1px solid #c8e6c9;">
+                        {{ result.percentage }}%
+                    </td>
+
+                    <!-- Status Column -->
+                    <td class="text-center" style="border: 1px solid #c8e6c9;">
+                        {% if result.status == "High" %}
+                        <span class="badge bg-danger fs-6">🔴 {{ result.status }}</span>
+                        {% elif result.status == "Medium" %}
+                        <span class="badge bg-warning text-dark fs-6">🟠 {{ result.status }}</span>
+                        {% else %}
+                        <span class="badge bg-success fs-6">🟢 {{ result.status }}</span>
+                        {% endif %}
+                    </td>
+
+                    <!-- Uploaded At Column -->
+                    <td class="text-center" style="border: 1px solid #c8e6c9;">
+                        <div class="small fw-bold">{{ result.uploaded_at.strftime('%Y-%m-%d') }}</div>
+                        <div class="text-muted small">{{ result.uploaded_at.strftime('%H:%M:%S') }}</div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<section style="background: #e8f5e9; text-align: center; padding: 50px;">
+    <h2 style="color: #2e7d32; margin-bottom: 15px; animation: fadeInUp 1s;">Ready to Explore NeuroLeaf?</h2>
+    <p style="color: #555; font-size: 1.1rem; margin-bottom: 25px;">Start using our AI tools to analyze satellite images now!</p>
+    <a href="{{ url_for('detect') }}" style="background: #2e7d32; color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-size: 1.1rem;">🌱 Start Detection</a>
+</section>
+<style>
+    
+@keyframes fadeInDown {
+    0% {opacity: 0; transform: translateY(-30px);}
+    100% {opacity: 1; transform: translateY(0);}
+}
+@keyframes fadeInUp {
+    0% {opacity: 0; transform: translateY(30px);}
+    100% {opacity: 1; transform: translateY(0);}
+}
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+</style>
+
+
+{% endblock %}

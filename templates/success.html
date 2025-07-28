@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container" style="max-width: 700px; margin: 50px auto; background: #f1f8f6; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); text-align: center; font-family: Arial, sans-serif;">
+    <h2 style="color: #2c3e50; margin-bottom: 15px;">✅ Analysis Complete</h2>
+    <p style="color: #555; font-size: 1.1rem;">Here are the results from the uploaded satellite image:</p>
+
+    <div style="margin: 20px 0;">
+        <img src="{{ url_for('static', filename='uploads/' ~ filename) }}" alt="Uploaded Image" style="max-width: 100%; border: 1px solid #ddd; border-radius: 8px; padding: 5px;">
+    </div>
+
+    <!-- AI Analysis Details -->
+    <div style="margin: 20px 0; padding: 15px; background: #eafaf1; border: 1px solid #b2f0c1; border-radius: 8px; text-align: left;">
+        <p style="font-size: 1.1rem; color: #2c3e50;"><b>📅 Year:</b> {{ year }}</p>
+        <p style="font-size: 1.1rem; color: #2c3e50;"><b>🪵 Deforested Area:</b> {{ area }}</p>
+        <p style="font-size: 1.1rem; color: #2c3e50;"><b>📊 Deforestation Percentage:</b> {{ percentage }}</p>
+        <p style="font-size: 1.1rem; color: {% if status == 'High' %}red{% else %}orange{% endif %};"><b>⚠️ Status:</b> {{ status }}</p>
+    </div>
+
+    <!-- Pie Chart -->
+    <div style="margin: 30px 0;">
+        <canvas id="deforestationChart" width="400" height="400"></canvas>
+    </div>
+
+    <a href="{{ url_for('detect') }}" style="background: #27ae60; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-size: 1rem;">⬅️ Analyze Another Image</a>
+</div>
+<!-- Image Comparison Section -->
+<div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin: 30px 0;">
+    <div style="text-align: center;">
+        <p style="font-weight: bold; color: #2c3e50;">🛰️ Uploaded Image (Current)</p>
+        <img src="{{ url_for('static', filename='uploads/' ~ filename) }}" alt="Uploaded" style="max-width: 300px; border: 2px solid #27ae60; border-radius: 10px;">
+    </div>
+    <div style="text-align: center;">
+        <p style="font-weight: bold; color: #2c3e50;">🗂️ Compared With (Reference)</p>
+        <img src="{{ url_for('static', filename='reference/reference.jpg') }}" alt="Reference" style="max-width: 300px; border: 2px solid #e74c3c; border-radius: 10px;">
+    </div>
+</div>
+
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('deforestationChart').getContext('2d');
+    const deforestedPercentage = parseFloat("{{ percentage[:-1] }}");  // Remove % sign
+    const forestedPercentage = 100 - deforestedPercentage;
+
+    const deforestationChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Forested Area', 'Deforested Area'],
+            datasets: [{
+                label: 'Deforestation Analysis',
+                data: [forestedPercentage, deforestedPercentage],
+                backgroundColor: [
+                    '#27ae60', // Green for Forested
+                    '#e74c3c'  // Red for Deforested
+                ],
+                borderColor: '#fff',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.label + ": " + context.parsed.toFixed(2) + "%";
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

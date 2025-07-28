@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Hero Banner -->
+ <section class="features">
+   
+    <h1 style="font-size: 3rem; margin-bottom: 15px; animation: fadeInDown 1s;">🚀 Our Features</h1>
+    <p style="font-size: 1.2rem; max-width: 750px; margin: auto; animation: fadeInUp 1.5s;">
+        Explore NeuroLeaf’s powerful tools designed to protect forests and promote sustainability.
+    </p>
+</section>
+<style>
+.features {
+    text-align: center;
+    padding: 60px 20px;
+    color: white;
+    background: linear-gradient(rgba(76, 175, 80, 0.7), rgba(0, 0, 0, 0.591)),
+                url("{{ url_for('static', filename='images/forest-bg.jpg') }}") no-repeat center center / cover;
+}
+</style>
+
+<!-- Features Section -->
+<section style="padding: 60px 20px; font-family: Arial, sans-serif;">
+    <div style="max-width: 1200px; margin: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+        <!-- Feature Card 1 -->
+        <div class="feature-card fade-in">
+            <img src="{{ url_for('static', filename='images/ai-analysis.png') }}" alt="AI Analysis" style="width: 100px; ">
+            <h3 style="color: #2c3e50;">🤖 AI Analysis</h3>
+            <p style="color: #555;">Advanced AI algorithms detect deforestation patterns accurately from satellite imagery.</p>
+        </div>
+
+        <!-- Feature Card 2 -->
+        <div class="feature-card fade-in">
+            <img src="{{ url_for('static', filename='images/earth-engine.jpeg') }}" alt="Google Earth Engine" style="width: 100px;">
+            <h3 style="color: #2c3e50;">🛰 Google Earth Engine</h3>
+            <p style="color: #555;">Real-time integration with Google Earth Engine for up-to-date forest data globally.</p>
+        </div>
+
+        <!-- Feature Card 3 -->
+        <div class="feature-card fade-in">
+            <img src="{{ url_for('static', filename='images/reports.jpg') }}" alt="Reports" style="width: 100px;">
+            <h3 style="color: #2c3e50;">📊 Detailed Reports</h3>
+            <p style="color: #555;">Comprehensive deforestation reports with percentage loss and year-wise analysis.</p>
+        </div>
+
+        <!-- Feature Card 4 -->
+        <div class="feature-card fade-in">
+            <img src="{{ url_for('static', filename='images/save-earth.jpg') }}" alt="Save Earth" style="width: 100px;">
+            <h3 style="color: #2c3e50;">🌍 Save Earth</h3>
+            <p style="color: #555;">Collaborate in global efforts to restore forests and protect biodiversity.</p>
+        </div>
+
+        <!-- Feature Card 5 -->
+        <div class="feature-card fade-in">
+            <img src="{{ url_for('static', filename='images/secure-data.jpg') }}" alt="Secure Data" style="width: 100px;">
+            <h3 style="color: #2c3e50;">🔒 Secure Data</h3>
+            <p style="color: #555;">Your uploaded satellite data is securely processed and never shared.</p>
+        </div>
+
+        <!-- Feature Card 6 -->
+        <div class="feature-card fade-in">
+            <img src="{{ url_for('static', filename='images/user-friendly.jpg') }}" alt="User Friendly" style="width: 100px;">
+            <h3 style="color: #2c3e50;">✨ User Friendly</h3>
+            <p style="color: #555;">Simple and intuitive interface designed for everyone to use easily.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+
+<section style="background: #e8f5e9; text-align: center; padding: 50px;">
+    <h2 style="color: #2e7d32; margin-bottom: 15px; animation: fadeInUp 1s;">Ready to Explore NeuroLeaf?</h2>
+    <p style="color: #555; font-size: 1.1rem; margin-bottom: 25px;">Start using our AI tools to analyze satellite images now!</p>
+    <a href="{{ url_for('detect') }}" style="background: #2e7d32; color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-size: 1.1rem;">🌱 Start Detection</a>
+</section>
+
+<!-- Animation CSS -->
+<style>
+.feature-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+    padding: 25px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+@keyframes fadeInDown {
+    0% {opacity: 0; transform: translateY(-30px);}
+    100% {opacity: 1; transform: translateY(0);}
+}
+@keyframes fadeInUp {
+    0% {opacity: 0; transform: translateY(30px);}
+    100% {opacity: 1; transform: translateY(0);}
+}
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+</style>
+
+<!-- Scroll Animation JS -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const faders = document.querySelectorAll('.fade-in');
+    const appearOptions = {
+        threshold: 0.1
+    };
+
+    const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+        });
+    }, appearOptions);
+
+    faders.forEach(fader => {
+        appearOnScroll.observe(fader);
+    });
+});
+</script>
+{% endblock %}

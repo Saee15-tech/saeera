@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero">
+    <h1 style="font-size: 3.5rem;">🌿 NeuroLeaf</h1>
+    <p id="tagline" style="font-size: 1.5rem; margin: 15px auto; max-width: 800px;">
+        AI-powered deforestation detection to protect forests and secure our planet’s future.
+    </p>
+    <a href="{{ url_for('detect') }}" class="btn-primary" style="padding: 12px 25px; font-size: 1.2rem;">Start Detecting</a>
+</div>
+
+<style>
+.hero {
+    text-align: center;
+    padding: 160px 20px;
+    color: white;
+    background: linear-gradient(rgba(76, 175, 80, 0.7), rgba(0, 0, 0, 0.591)),
+                url("{{ url_for('static', filename='images/forest-bg.jpg') }}") no-repeat center center / cover;
+}
+</style>
+
+
+
+<!-- About Section -->
+ 
+<section class=""about style="background: #f5f5f5; padding: 5px;">
+    <div style="max-width: 2000px; margin: auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; background: white; border-radius: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); padding: 30px;">
+        
+        <!-- Left Column: Text -->
+        <div style="flex: 1; min-width: 300px; text-align: left; padding: 20px;">
+            <h2 style="font-size: 2.8rem; color: #388e3c; margin-bottom: 15px; text-align: center;">About NeuroLeaf</h2>
+            <p style="font-size: 1.2rem; color: #555; line-height: 1.7;">
+                🌿 NeuroLeaf uses advanced AI and satellite imagery to monitor and detect deforestation in real-time. 
+                Our mission is to protect Earth's forests and promote sustainability through technology.
+            </p>
+         
+        </div>
+
+        <!-- Right Column: Additional Content -->
+       <div style="flex:1;min-width:300px;text-align:center;padding:20px;">
+  <iframe src="https://www.youtube.com/embed/RzVvThhjAKw?autoplay=1&mute=1&loop=1&playlist=RzVvThhjAKw" 
+        width="100%" height="315" 
+        style="border-radius:10px;box-shadow:0 4px 15px rgba(0,0,0,0.2);" 
+        allow="autoplay" 
+        allowfullscreen>
+</iframe>
+
+</div>
+
+    </div>
+</section>
+
+
+<!-- Features Slider Section -->
+<section style="background: #f5f5f5; text-align: center; padding: 40px 20px;">
+    <h2 style="font-size: 2.8rem; color: #2e7d32; margin-bottom: 20px;">🌟 Key Features</h2>
+    <p style="font-size: 1.1rem; max-width: 800px; margin: auto; color: #555;">
+        🌿 Explore our cutting-edge features for forest conservation and monitoring.
+    </p>
+
+    <!-- Auto Slider -->
+    <div class="slider-container" style="margin-top: 30px;">
+        <div class="slider-track">
+            <!-- Repeat cards for seamless sliding -->
+            {% for i in range(2) %}
+            <div class="feature-card">
+                <h3>🌱 Eco AI</h3>
+                <p>Powerful neural networks analyze satellite data to identify forest loss.</p>
+            </div>
+            <div class="feature-card">
+                <h3>📡 Satellite Insights</h3>
+                <p>High-resolution imagery ensures accurate monitoring of green cover.</p>
+            </div>
+            <div class="feature-card">
+                <h3>📊 Real-Time Alerts</h3>
+                <p>Get instant notifications about potential deforestation hotspots.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🔒 Secure Data</h3>
+                <p>Your environmental data is protected with advanced encryption.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🌍 Global Coverage</h3>
+                <p>Monitor forests across continents with one powerful tool.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🤖 AI Predictions</h3>
+                <p>Forecast future deforestation trends with machine learning models.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Section -->
+ 
+<section class="cta">
+    
+    <h2 >Join Us in Saving Forests 🌍</h2>
+    <p>Your small step can make a big difference. Start detecting now!</p>
+    <a href="{{ url_for('detect') }}" class="btn-primary">Get Started</a>
+
+</section>
+<style>
+.cta {
+    text-align: center;
+    padding: 60px 20px;
+    color: white;
+    background: linear-gradient(rgba(76, 175, 80, 0.7), rgba(0, 0, 0, 0.591)),
+                url("{{ url_for('static', filename='images/forest-bg.jpg') }}") no-repeat center center / cover;
+}
+</style>
+
+<!-- Slider Styles -->
+<style>
+    .slider-container {
+        overflow: hidden;
+        width: 100%;
+    }
+
+    .slider-track {
+        display: flex;
+        width: calc(300px * 12); /* 6 cards x 2 loops */
+        animation: slideLeft 20s linear infinite;
+    }
+
+    .feature-card {
+        flex: 0 0 300px;
+        margin: 0 10px;
+        background: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        text-align: center;
+        color: #2e7d32;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+    }
+
+    .feature-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    @keyframes slideLeft {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .feature-card {
+            flex: 0 0 250px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .feature-card {
+            flex: 0 0 200px;
+        }
+    }
+</style>
+{% endblock %}

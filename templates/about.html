@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Hero Banner -->
+<section class="about">
+    <h1 style="font-size: 3rem; margin-bottom: 15px; animation: fadeInDown 1s;">🌿 About NeuroLeaf</h1>
+    <p style="color: #ffffff;font-size: 1.2rem; max-width: 750px; margin: auto; animation: fadeInUp 1.5s;">AI-powered platform to detect deforestation, protect forests and ensure a sustainable future for our planet.</p>
+</section>
+<style>
+.about {
+    text-align: center;
+    padding: 60px 20px;
+    color: white;
+    background: linear-gradient(rgba(76, 175, 80, 0.7), rgba(0, 0, 0, 0.591)),
+                url("{{ url_for('static', filename='images/forest-bg.jpg') }}") no-repeat center center / cover;
+}
+</style>
+
+
+<!-- About Content -->
+<section style="padding: 60px 20px; font-family: Arial, sans-serif; background: #fafafa;">
+    <div style="max-width: 1100px; margin: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px;">
+        <!-- Left Column -->
+        <div class="fade-in">
+            <h2 style="color: #388E3C; margin-bottom: 10px;">🌱 Our Mission</h2>
+            <p style="color: #4E5D4E; line-height: 1.8;">
+                NeuroLeaf combines Artificial Intelligence and satellite imagery to analyze forest cover and detect deforestation zones. Our mission is to empower environmental conservation and make data-driven decisions for a greener planet.
+            </p>
+            <h2 style="color: #388E3C; margin-top: 30px;">🚀 Why NeuroLeaf?</h2>
+            <ul style="color: #4E5D4E; line-height: 1.7; margin-left: 20px;">
+                <li>📸 Accurate AI analysis of satellite images</li>
+                <li>🛰 Integration with Google Earth Engine</li>
+                <li>📊 Detailed deforestation reports</li>
+                <li>🌍 Contribution towards global sustainability</li>
+            </ul>
+        </div>
+
+        <!-- Right Column -->
+        <div class="fade-in">
+            <img src="{{ url_for('static', filename='images/forest-bg.jpg') }}" alt="Forest Image" style="width: 100%; border-radius: 12px; box-shadow: 0 5px 25px rgba(0,0,0,0.2);">
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section style="background: #e8f5e9; text-align: center; padding: 50px;">
+    <h2 style="color: #2e7d32; margin-bottom: 15px; animation: fadeInUp 1s;">Ready to Explore NeuroLeaf?</h2>
+    <p style="color: #555; font-size: 1.1rem; margin-bottom: 25px;">Start using our AI tools to analyze satellite images now!</p>
+    <a href="{{ url_for('detect') }}" style="background: #2e7d32; color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-size: 1.1rem;">🌱 Start Detection</a>
+</section>
+
+
+
+<!-- Animation CSS -->
+<style>
+@keyframes fadeInDown {
+    0% {opacity: 0; transform: translateY(-30px);}
+    100% {opacity: 1; transform: translateY(0);}
+}
+@keyframes fadeInUp {
+    0% {opacity: 0; transform: translateY(30px);}
+    100% {opacity: 1; transform: translateY(0);}
+}
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+</style>
+
+<!-- Scroll Animation JS -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const faders = document.querySelectorAll('.fade-in');
+    const appearOptions = { threshold: 0.1 };
+
+    const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+        });
+    }, appearOptions);
+
+    faders.forEach(fader => {
+        appearOnScroll.observe(fader);
+    });
+});
+</script>
+{% endblock %}
