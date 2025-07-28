@@ -1,4 +1,5 @@
-Flask==2.3.3
-gunicorn==21.2.0
-pymongo==4.7.1
-flask_pymongo==2.3.0
+Flask
+flask_pymongo
+gunicorn
+pymongo
+dnspython
